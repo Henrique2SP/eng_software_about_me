@@ -1,0 +1,72 @@
+name: Esteira DevOps (simulada)
+
+# Como o projeto é uma aplicação estática (HTML/CSS/JS), não há build real,
+# testes automatizados de verdade nem deploy em servidor. Cada etapa abaixo
+# SIMULA a ação correspondente com mensagens no log, apenas para fins didáticos
+# da atividade de Gerência de Configuração, Git e GitHub.
+
+on:
+  push: {}
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código (checkout)
+        uses: actions/checkout@v4
+
+      - name: "Build (simulado)"
+        run: |
+          echo "🔧 Build iniciado..."
+          echo "Empacotando item de configuração: about.html"
+          echo "Arquivos do projeto:"
+          ls -R
+          echo "✅ Build concluído."
+          echo "📎 Relaciona-se à teoria: Integração contínua"
+
+  test:
+    name: Test
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o código (checkout)
+        uses: actions/checkout@v4
+
+      - name: "Test (simulado)"
+        run: |
+          echo "🧪 Executando testes automatizados (simulado)..."
+          test -f index.html && echo "✅ index.html encontrado" || (echo "❌ index.html ausente" && exit 1)
+          test -f about.html && echo "✅ about.html encontrado" || (echo "❌ about.html ausente" && exit 1)
+          test -f css/style.css && echo "✅ css/style.css encontrado" || (echo "❌ css/style.css ausente" && exit 1)
+          echo "✅ Testes concluídos com sucesso."
+          echo "📎 Relaciona-se à teoria: Auditoria de qualidade"
+
+  deploy:
+    name: Deploy
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Deploy (simulado)"
+        run: |
+          echo "🚀 Publicando em ambiente de homologação (simulado)..."
+          echo "Ambiente: about-me-git-lab (staging)"
+          echo "Referência publicada: ${{ github.ref_name }}"
+          echo "✅ Deploy concluído."
+          echo "📎 Relaciona-se à teoria: Controle de mudança"
+
+  release:
+    name: Release
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Release (simulado)"
+        run: |
+          echo "🏷️ Publicando release (simulado)..."
+          echo "Referência: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo "✅ Release concluído: baseline entregue e rastreável."
+          echo "📎 Relaciona-se à teoria: Baseline entregue"
